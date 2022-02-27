@@ -38,7 +38,24 @@ For me, I use MacOS with already install compiler for C++.
 
 **Multiple-line comment:** Multi-line comments are created using `/*` to begin the comment, and `*/` to end the comment.
 
-## References
+### Run Hello World ###
+
+1. Create a source file hello.cpp in text editor:
+
+```
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    std::cout << "Hello World" << std::endl;
+}
+```
+2. Open Terminal window, run `clang++` or `g++` + `hello.cpp` to compile
+3. Type `./a.out` to run the program.
+
+## References ##
 [1] History of C++ - C++ Information. (n.d.). Retrieved from https://www.cplusplus.com/info/history/ 
 [2] Xiao, L. (2021, October 28). What is C++ used for? Retrieved from https://www.codecademy.com/resources/blog/what-is-c-plus-plus-used-for/ 
 [3] https://www.codecademy.com/learn/learn-c-plus-plus/modules/learn-cpp-hello-world/cheatsheet 
