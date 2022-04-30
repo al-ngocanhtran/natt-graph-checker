@@ -1,7 +1,6 @@
 from collections import defaultdict
 import time
 import networkx as nx 
-import numpy as np 
 import matplotlib.pyplot as plt 
 
 # defaultdict stores Dict but different from Dict as it does not
@@ -130,7 +129,3 @@ class Visualization:
         inputGraph = Graph(inputList)
         result = inputGraph.test()
         Visualization.drawGraph(G, inputGraph, inputList, result)
-        
-Visualization.main([[1, 0], [0, 2], [2, 1], [0, 3], [3, 4], [1, 3]])
-Visualization.main([[1, 0], [0, 2], [2, 1], [0, 3], [3, 4], [4, 0]])
-Visualization.main([[1, 0], [0, 2], [2, 1], [0, 3], [3, 4]])
