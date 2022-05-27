@@ -74,7 +74,7 @@ class Window(QMainWindow):
             if self.textbox1.text() == self.textbox2.text() and self.textbox1.text() != '':
                 print('Equal case')
                 self.raiseErr(1)
-            elif [int(self.textbox1.text()), int(self.textbox2.text())] in self.listE or [int(self.textbox2.text()), int(self.textbox1.text())] in self.listE:
+            elif [self.textbox1.text(), self.textbox2.text()] in self.listE or [self.textbox2.text(), self.textbox1.text()] in self.listE:
                 self.raiseErr(2)
             # if self.textbox1.text() != '' and self.textbox2.text() != '':
             #     print('Jump here')
@@ -92,7 +92,7 @@ class Window(QMainWindow):
             if self.textbox1.text() == self.textbox2.text() and self.textbox1.text() != '':
                 print('Equal case')
                 self.raiseErr(1)
-            elif [int(self.textbox1.text()), int(self.textbox2.text())] in self.listE or [int(self.textbox2.text()), int(self.textbox1.text())] in self.listE:
+            elif [self.textbox1.text(), self.textbox2.text()] in self.listE or [self.textbox2.text(), self.textbox1.text()] in self.listE:
                 self.raiseErr(2)
             else:
                 self.label1.setText(
@@ -138,12 +138,12 @@ class Window(QMainWindow):
                 self.listV.append(self.textbox1.text())
             if self.textbox2.text() not in self.listV:
                 self.listV.append(self.textbox2.text())
-            self.listE.append([int(self.textbox1.text()),
-                               int(self.textbox2.text())])
+            self.listE.append([self.textbox1.text(),
+                               self.textbox2.text()])
         count = 0
         mes = ''
         for pair in self.listE:
-            mes += '[' + str(pair[0]) + ',' + str(pair[1]) + ']'
+            mes += '[' + pair[0] + ',' + pair[1] + ']'
             if count != len(self.listE) - 1:
                 mes += ','
             count += 1
@@ -151,7 +151,7 @@ class Window(QMainWindow):
         mes += '\nVertices: ['
         for v in self.listV:
             count += 1
-            mes += str(v)
+            mes += v
             if count == len(self.listV) - 1:
                 mes += ']'
             else:
