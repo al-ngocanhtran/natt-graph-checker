@@ -9,7 +9,6 @@ import java.util.Scanner;
 /**
  * Class for testing the planarity of a biconnected graph.
  *
- * @author Max Bogue
  */
 public class TestPlanarity {
 
@@ -34,15 +33,16 @@ public class TestPlanarity {
      */
     public static void main ( String[] args ) {
 
-        // Check number of arguments.
-        /*if ( args.length != 1 ) {
-            System.err.println( "Reading args failed!");
-            System.exit(1);
-        }
-        */
-        Graph<Integer> graph = readGraphFromFile("/Users/user/Downloads/PlanarityTester-master/input/k33.txt");
+        Scanner io = new Scanner(System.in);
+        System.out.println("Enter filename: ");
+        String filename = io.nextLine();
+        io.close();
+
+        
+        Graph<Integer> graph = readGraphFromFile(filename);
         Graph<Integer> cycle = (new GraphTraverser<Integer>( graph )).findCycle();
-        System.out.println( testPlanarity( graph, cycle ) ? "planar" : "nonplanar" );
+        System.out.println("Result: ");
+        System.out.println( testPlanarity( graph, cycle ) ? "It's a planar graph!" : "It's a nonplanar graph!" );
     }
 
     /**
