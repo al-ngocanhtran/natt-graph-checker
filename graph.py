@@ -45,14 +45,16 @@ class Graph:
     # Check visited vertices by DFS to check if graph is connected
     def DFSearch(self, v, visited):
         # Mark the current node as visited
+        if visited[v]:
+            return
         visited[v] = True
 
         # Recur to check all the adjacent vertices to the current vertice
         print('self Graph: ', self.graph)
-        for i in self.graph[v]:
+        neighbors = self.graph[v]
+        for i in neighbors:
             print('check visited v', i)
-            if visited[i] == False:
-                self.DFSearch(i, visited)
+            self.DFSearch(i, visited)
 
     # Check if graph is connected
     def isConnected(self):
@@ -61,14 +63,15 @@ class Graph:
         visited = [False]*(size)
         print('Visited: ', visited)
 
+        # DFS should start visitedV
         visitedV = 0
         # Find a vertex with non-zero degree to start the algorithm
-        for i in range(size):
-            if len(self.graph[i]) > 1:
-                visitedV = i
+        for index, key in enumerate(self.graph):
+            if len(self.graph[key]) > 1:
+                visitedV = index
                 break
             # If there are no edges in the graph, return true
-            if i == size - 1:
+            if index == size - 1:
                 return True
 
         self.DFSearch(visitedV, visited)
@@ -114,7 +117,7 @@ class Graph:
 
 
 class Visualization:
-        
+
     def drawGraph(G, graph, listE, result):
         listV = graph.defineVertices()
         for v in listV:
@@ -126,7 +129,7 @@ class Visualization:
         ax.set_title(result)
         nx.draw(G, with_labels=True, node_color="pink")
         plt.show(block=False)
-        plt.pause(3)
+        plt.pause(5)
         # plt.savefig(filename)
         plt.close()
 
