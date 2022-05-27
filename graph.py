@@ -25,16 +25,6 @@ class Graph:
         self.createEdge()
         self.listV = listV
 
-    # Creating a graph with the given vertices
-    def createEdge(self):
-        for elm in self.listE:
-            if len(elm) == 2:
-                v1 = elm[0]
-                v2 = elm[1]
-                if v1 != v2:
-                    self.graph[v1].append(v2)
-                    self.graph[v2].append(v1)
-
     # Check visited vertices by DFS to check if graph is connected
     def DFSearch(self, v, visited):
         # Mark the current node as visited
@@ -48,6 +38,16 @@ class Graph:
                 print('check visited v', i)
                 self.DFSearch(i, visited)
 
+     # Creating a graph with the given vertices
+    def createEdge(self):
+        for elm in self.listE:
+            if len(elm) == 2:
+                v1 = elm[0]
+                v2 = elm[1]
+                if v1 != v2:
+                    self.graph[v1].append(v2)
+                    self.graph[v2].append(v1)
+                    
     # Check if graph is connected
     def isConnected(self):
         # initializing a list of vertices with none visited
@@ -112,8 +112,8 @@ class Visualization:
 
     def drawGraph(G, graph, result):
         for pair in graph.listE:
-            v1 = str(pair[0])
-            v2 = str(pair[1])
+            v1 = pair[0]
+            v2 = pair[1]
             if v1 in graph.listV:
                 graph.listV.remove(v1)
             if v2 in graph.listV:
