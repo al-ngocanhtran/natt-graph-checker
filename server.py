@@ -160,12 +160,13 @@ class Window(QMainWindow):
         if self.textbox1.text() != '' and self.textbox2.text() != '':
             self.listE.append([int(self.textbox1.text()),
                                int(self.textbox2.text())])
-        self.textbox1.setText('')
-        self.textbox2.setText('')
+            self.textbox1.setText('')
+            self.textbox2.setText('')
         canvas = Canvas(self, width=8, height=4, listE=self.listE)
         canvas.move(0, 0)
 
         self.label2.setText('Empty input')
+        self.listE = []
 
 
 class Canvas(FigureCanvas):
@@ -178,7 +179,6 @@ class Canvas(FigureCanvas):
 
     def plot(self, listE):
         Visualization.main(listE)
-        self.listE = []
 
 
 app = QApplication(sys.argv)
