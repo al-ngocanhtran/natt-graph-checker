@@ -8,7 +8,7 @@ import java.util.Set;
  * functions for some useful graph operations, many implemented using
  * the GraphTraversal class.
  *
- * @author Max Bogue
+ * Adapted from repository of Max Bogue
  */
 public class Graph<T> {
 
@@ -150,7 +150,8 @@ public class Graph<T> {
 // Static Methods
 
     /**
-     * Tests whether a connected graph is a cycle.
+     * Tests whether a connected graph is a cycle
+     *
      *
      * @param graph     The graph to test.
      * @return          Whether it is a cycle or not.

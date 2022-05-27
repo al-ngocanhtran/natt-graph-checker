@@ -11,7 +11,7 @@ import java.util.Set;
  * have a corresponding static method in the Graph class for easier
  * calling.
  *
- * @author Max Bogue
+ * Adapted from repository of Max Bogue
  */
 public class GraphTraverser<T> {
 
@@ -185,8 +185,8 @@ public class GraphTraverser<T> {
         searched.clear();
         Set<Graph<T>> pieces = new HashSet<Graph<T>>();
         for ( T v : cycle.getVertices() ) {
-            searched.add( v );
-            for ( T n : graph.getNeighbors( v ) ) {
+            searched.add( v );  //mark visited vertex
+            for ( T n : graph.getNeighbors( v ) ) { //get all neighbỏ
                 if (   !searched.contains( n ) && !cycle.hasEdge( n, v ) ) {
                     result = new Graph<T>();
                     result.addEdge( v, n );

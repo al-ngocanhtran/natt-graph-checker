@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.Scanner;
 /**
  * Class for testing the planarity of a biconnected graph.
- *
+ * Adapted from repository of Max Bogue
  */
 public class TestPlanarity {
 
