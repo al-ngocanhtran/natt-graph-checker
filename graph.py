@@ -1,7 +1,7 @@
 from collections import defaultdict
 import time
-import networkx as nx 
-import matplotlib.pyplot as plt 
+import networkx as nx
+import matplotlib.pyplot as plt
 
 # defaultdict stores Dict but different from Dict as it does not
 # raise KeyError but returns default value for non-existing key
@@ -32,7 +32,7 @@ class Graph:
                 if v not in listV:
                     listV.add(v)
         return listV
-    
+
     # Creating a graph with the given vertices
     def createEdge(self):
         for elm in self.listE:
@@ -40,7 +40,7 @@ class Graph:
             v2 = elm[1]
             if v1 != v2:
                 self.graph[v1].append(v2)
-                self.graph[v2].append(v1) 
+                self.graph[v2].append(v1)
 
     # Check visited vertices by DFS to check if graph is connected
     def DFSearch(self, v, visited):
@@ -48,8 +48,9 @@ class Graph:
         visited[v] = True
 
         # Recur to check all the adjacent vertices to the current vertice
-        print(self.graph[v])
+        print('self Graph: ', self.graph)
         for i in self.graph[v]:
+            print('check visited v', i)
             if visited[i] == False:
                 self.DFSearch(i, visited)
 
@@ -58,6 +59,7 @@ class Graph:
         # initializing a list of vertices with none visited
         size = len(self.graph)
         visited = [False]*(size)
+        print('Visited: ', visited)
 
         visitedV = 0
         # Find a vertex with non-zero degree to start the algorithm
@@ -110,22 +112,24 @@ class Graph:
         else:
             return "Graph is a Eulerian graph (having a Euler cycle)"
 
+
 class Visualization:
+        
     def drawGraph(G, graph, listE, result):
         listV = graph.defineVertices()
         for v in listV:
             G.add_node(v)
         for pair in listE:
             G.add_edge(pair[0], pair[1])
-        plt.figure(figsize=(10,5))
+        plt.figure(figsize=(10, 5))
         ax = plt.gca()
         ax.set_title(result)
         nx.draw(G, with_labels=True, node_color="pink")
         plt.show(block=False)
         plt.pause(3)
-        #plt.savefig(filename)
+        # plt.savefig(filename)
         plt.close()
-        
+
     def main(inputList):
         G = nx.Graph()
         inputGraph = Graph(inputList)

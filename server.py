@@ -62,13 +62,12 @@ class Window(QMainWindow):
         self.finish.setGeometry(QtCore.QRect(480, 300, 100, 28))
         self.finish.setFont(fontsize)
 
-        self.addMore.clicked.connect(self.handleBtnClicked, 3)
-        self.finish.clicked.connect(self.handleBtnClicked, 4)
+        self.addMore.clicked.connect(self.handleAddMoreClicked)
+        self.finish.clicked.connect(self.handleFinishClicked)
 
     ''' Still cannot handle err'''
 
-    def handleBtnClicked(self, btn):
-        print(btn)
+    def handleAddMoreClicked(self):
 
         if self.textbox1.text() != '' and self.textbox2.text() != '':
             if self.textbox1.text() == self.textbox2.text() and self.textbox1.text() != '':
@@ -83,11 +82,26 @@ class Window(QMainWindow):
                     "Instruction: The program will prompt user to input 2 vertices those connect to each other")
                 self.label1.setGraphicsEffect(
                     QGraphicsColorizeEffect().setColor(Qt.blue))
-                if btn == 3:
-                    self.updateInputs()
-                else:
-                    print('Jump here')
-                    self.finishInputs()
+
+                self.updateInputs()
+
+    def handleFinishClicked(self):
+
+        if self.textbox1.text() != '' and self.textbox2.text() != '':
+            if self.textbox1.text() == self.textbox2.text() and self.textbox1.text() != '':
+                print('Equal case')
+                self.raiseErr(1)
+            elif [int(self.textbox1.text()), int(self.textbox2.text())] in self.listE or [int(self.textbox2.text()), int(self.textbox1.text())] in self.listE:
+                self.raiseErr(2)
+            # if self.textbox1.text() != '' and self.textbox2.text() != '':
+            #     print('Jump here')
+            else:
+                self.label1.setText(
+                    "Instruction: The program will prompt user to input 2 vertices those connect to each other")
+                self.label1.setGraphicsEffect(
+                    QGraphicsColorizeEffect().setColor(Qt.blue))
+
+                self.finishInputs()
 
     def raiseErr(self, err):
 
@@ -164,6 +178,7 @@ class Canvas(FigureCanvas):
 
     def plot(self, listE):
         Visualization.main(listE)
+        self.listE = []
 
 
 app = QApplication(sys.argv)
