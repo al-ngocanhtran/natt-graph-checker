@@ -38,8 +38,9 @@ class Graph:
         for elm in self.listE:
             v1 = elm[0]
             v2 = elm[1]
-            self.graph[v1].append(v2)
-            self.graph[v2].append(v1)
+            if v1 != v2:
+                self.graph[v1].append(v2)
+                self.graph[v2].append(v1) 
 
     # Check visited vertices by DFS to check if graph is connected
     def DFSearch(self, v, visited):
@@ -47,6 +48,7 @@ class Graph:
         visited[v] = True
 
         # Recur to check all the adjacent vertices to the current vertice
+        print(self.graph[v])
         for i in self.graph[v]:
             if visited[i] == False:
                 self.DFSearch(i, visited)
