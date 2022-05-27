@@ -19,42 +19,34 @@ class Graph:
     listE = [[v1, v4], [v2, v3]] e.g
     '''
 
-    def __init__(self, listE):
+    def __init__(self, listE, listV):
         self.listE = listE  # no of vertices
         self.graph = defaultdict(list)
         self.createEdge()
-        self.defineVertices()
-
-    def defineVertices(self):
-        listV = set()
-        for pair in self.listE:
-            for v in pair:
-                if v not in listV:
-                    listV.add(v)
-        return listV
+        self.listV = listV
 
     # Creating a graph with the given vertices
     def createEdge(self):
         for elm in self.listE:
-            v1 = elm[0]
-            v2 = elm[1]
-            if v1 != v2:
-                self.graph[v1].append(v2)
-                self.graph[v2].append(v1)
+            if len(elm) == 2:
+                v1 = elm[0]
+                v2 = elm[1]
+                if v1 != v2:
+                    self.graph[v1].append(v2)
+                    self.graph[v2].append(v1)
 
     # Check visited vertices by DFS to check if graph is connected
     def DFSearch(self, v, visited):
         # Mark the current node as visited
-        if visited[v]:
-            return
         visited[v] = True
 
         # Recur to check all the adjacent vertices to the current vertice
         print('self Graph: ', self.graph)
         neighbors = self.graph[v]
         for i in neighbors:
-            print('check visited v', i)
-            self.DFSearch(i, visited)
+            if visited[i] == False:
+                print('check visited v', i)
+                self.DFSearch(i, visited)
 
     # Check if graph is connected
     def isConnected(self):
@@ -118,12 +110,17 @@ class Graph:
 
 class Visualization:
 
-    def drawGraph(G, graph, listE, result):
-        listV = graph.defineVertices()
-        for v in listV:
-            G.add_node(v)
-        for pair in listE:
+    def drawGraph(G, graph, result):
+        for pair in graph.listE:
+            v1 = str(pair[0])
+            v2 = str(pair[1])
+            if v1 in graph.listV:
+                graph.listV.remove(v1)
+            if v2 in graph.listV:
+                graph.listV.remove(v2)
             G.add_edge(pair[0], pair[1])
+        for v in graph.listV:
+            G.add_node(v)
         plt.figure(figsize=(10, 5))
         ax = plt.gca()
         ax.set_title(result)
@@ -133,8 +130,8 @@ class Visualization:
         # plt.savefig(filename)
         plt.close()
 
-    def main(inputList):
+    def main(listE, listV):
         G = nx.Graph()
-        inputGraph = Graph(inputList)
+        inputGraph = Graph(listE, listV)
         result = inputGraph.test()
-        Visualization.drawGraph(G, inputGraph, inputList, result)
+        Visualization.drawGraph(G, inputGraph, result)

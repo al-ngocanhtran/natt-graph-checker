@@ -32,6 +32,7 @@ class Window(QMainWindow):
         self.label2.setFont(QFont('Arial', 16))
         self.label2.setGeometry(QtCore.QRect(170, 350, 900, 80))
 
+        self.listV = []
         self.listE = []
         self.MyUI()
 
@@ -83,7 +84,7 @@ class Window(QMainWindow):
                 self.label1.setGraphicsEffect(
                     QGraphicsColorizeEffect().setColor(Qt.blue))
 
-                self.updateInputs()
+        self.updateInputs()
 
     def handleFinishClicked(self):
 
@@ -93,29 +94,23 @@ class Window(QMainWindow):
                 self.raiseErr(1)
             elif [int(self.textbox1.text()), int(self.textbox2.text())] in self.listE or [int(self.textbox2.text()), int(self.textbox1.text())] in self.listE:
                 self.raiseErr(2)
-            # if self.textbox1.text() != '' and self.textbox2.text() != '':
-            #     print('Jump here')
             else:
                 self.label1.setText(
                     "Instruction: The program will prompt user to input 2 vertices those connect to each other")
                 self.label1.setGraphicsEffect(
                     QGraphicsColorizeEffect().setColor(Qt.blue))
 
-                self.finishInputs()
+        self.finishInputs()
 
     def raiseErr(self, err):
 
-        if err == 0:
-            self.label1.setText(
-                "!!!Error: You have to enter enough 2 vertices in the edge")
-            errColor = Qt.red
-        elif err == 2:
+        if err == 2:
             self.label1.setText(
                 "***Warning: This edge is already existed. Continue to add new edge.")
             errColor = Qt.darkYellow
         else:
             self.label1.setText(
-                "!Error: You cannot create an edge with 2 same vertices")
+                "!Error: You cannot create an edge with 2 SAME vertices")
             errColor = Qt.red
 
         # creating a color effect
@@ -130,55 +125,78 @@ class Window(QMainWindow):
         self.textbox1.setFocus()
         self.textbox2.setText('')
 
-    def popupBtn(self, i):
-        if i.text() == 'Cancel':
-            self.textbox1.setText('')
-            self.textbox2.setText('')
-            return ''
-        else:
-            return self.textbox1.text()
-
     def updateInputs(self):
-        self.listE.append([int(self.textbox1.text()),
-                          int(self.textbox2.text())])
+        if self.textbox1.text() == '' and self.textbox2.text() != '':
+            if self.textbox2.text() not in self.listV:
+                self.listV.append(self.textbox2.text())
+        elif self.textbox2.text() == '' and self.textbox1.text() != '':
+            if self.textbox1.text() not in self.listV:
+                print('HMMMM')
+                self.listV.append(self.textbox1.text())
+        elif self.textbox2.text() != '' and self.textbox1.text() != '':
+            if self.textbox1.text() not in self.listV:
+                self.listV.append(self.textbox1.text())
+            if self.textbox2.text() not in self.listV:
+                self.listV.append(self.textbox2.text())
+            self.listE.append([int(self.textbox1.text()),
+                               int(self.textbox2.text())])
         count = 0
         mes = ''
         for pair in self.listE:
+            mes += '[' + str(pair[0]) + ',' + str(pair[1]) + ']'
             if count != len(self.listE) - 1:
-                mes += '[' + str(pair[0]) + ',' + str(pair[1]) + '],'
-            else:
-                mes += '[' + str(pair[0]) + ',' + str(pair[1]) + ']'
+                mes += ','
             count += 1
+        count = -1
+        mes += '\nVertices: ['
+        for v in self.listV:
+            count += 1
+            mes += str(v)
+            if count == len(self.listV) - 1:
+                mes += ']'
+            else:
+                mes += ','
 
-        self.label2.setText("Input:\n[" + mes + "]")
+        self.label2.setText("Input:\nEdges: " + mes)
         self.textbox1.setText('')
         self.textbox1.setFocus()
         self.textbox2.setText('')
 
     def finishInputs(self):
 
-        if self.textbox1.text() != '' and self.textbox2.text() != '':
-            self.listE.append([int(self.textbox1.text()),
-                               int(self.textbox2.text())])
-            self.textbox1.setText('')
-            self.textbox2.setText('')
-        canvas = Canvas(self, width=8, height=4, listE=self.listE)
+        self.updateInputs()
+        # if self.textbox1.text() == '' and self.textbox2.text() != '':
+        #     if self.textbox2.text() not in self.listV:
+        #         self.listV.append(self.textbox2.text())
+        #         self.listE.append([int(self.textbox2.text())])
+        # if self.textbox2.text() == '' and self.textbox1.text() != '':
+        #     if self.textbox1.text() not in self.listV:
+        #         self.listV.append(self.textbox1.text())
+        #         self.listE.append([int(self.textbox1.text())])
+        # if self.textbox1.text() != '' and self.textbox2.text() != '':
+        #     self.listE.append([int(self.textbox1.text()),
+        #                        int(self.textbox2.text())])
+        #     self.textbox1.setText('')
+        #     self.textbox2.setText('')
+        canvas = Canvas(self, width=8, height=4,
+                        listE=self.listE, listV=self.listV)
         canvas.move(0, 0)
 
         self.label2.setText('Empty input')
         self.listE = []
+        self.listV = []
 
 
 class Canvas(FigureCanvas):
-    def __init__(self, parent=None, width=5, height=5, dpi=100, listE=[]):
+    def __init__(self, parent=None, width=5, height=5, dpi=100, listE=[], listV=[]):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = fig.add_subplot(111)
         FigureCanvas.__init__(self, fig)
         self.setParent(parent)
-        self.plot(listE)
+        self.plot(listE, listV)
 
-    def plot(self, listE):
-        Visualization.main(listE)
+    def plot(self, listE, listV):
+        Visualization.main(listE, listV)
 
 
 app = QApplication(sys.argv)
